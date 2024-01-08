@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html style="height: 100%; width: 100%; margin: 0; padding: 0; box-sizing: border-box; border: none; ">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>taxSun</title>
+        <link rel="stylesheet" href=""/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+        <link rel="stylesheet" href={{ url_for('static', filename='style.css') }}>
+        
+        <script>var exports = {};</script>
+    </head>
+    <body id="body-1" style="height: 100%; width: 100%; margin: 0; padding: 0; box-sizing: border-box; border: none; ">
+        <div id="married-pattern" style="position:absolute; height: 100%; width: 100%; margin: 0; padding: 0; box-sizing: border-box; border: none; background-image: radial-gradient(circle at 1px 1px, #800080 1px, transparent 0); background-size: 5px 5px; z-index: 100; pointer-events:none; clip-path: url(#mask); opacity: 0.5;"></div>
+        <div id="interaction">
+            <input type="text" id="descendant-section" style="display: flex; position: fixed; top: 0vmin; left: 50%; visibility: hidden">
+            <div>
+                <form id="uploadForm" action = "http://127.0.0.1:5000/load_tsv_data" method = "POST" enctype = "multipart/form-data">
+                    <fieldset style="padding-bottom: 2vh;">
+                        <legend style="color: #800080; font-weight: bold;">UPLOAD YOUR DATA</legend>
+                        <div style="display: flex; max-width: 100%;">
+                            <input type="file" name="file" id="file" style="display: inline; max-width: 90%;"/><span id="status" class="material-symbols-outlined" style="display: inline; right: 2vmin"></span>
+                        </div>
+                        <div style="display: flex; max-width: 100%; margin-top: 1vh;">
+                            <!--disable next line-->
+                            <input type="file" name="fasta-file" id="fasta-file" disabled="disabled" style="display: inline; max-width: 90%;"/><span id="fasta-status" class="material-symbols-outlined" style="display: inline; right: 2vmin"></span>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <fieldset>
+                <legend style="color: #800080; font-weight: bold;">VIEWING MODES</legend>
+                <div id="input">
+                    <input type="checkbox" id="checkbox-input" name="collapse" style="accent-color: #800080;">
+                    <label for="collapse">Collapse</label>
+                </div>
+                <div id="input1" style="padding-bottom: 2vh;">
+                    <!--disable next line-->
+                    <input type="checkbox" id="e-input" disabled="disabled" name="e-value" style="accent-color: #800080;">
+                    <label for="e-value" id="e-label" style="color: grey;">Filter by e-value: </label>
+                    <!--disable next line and remove value attr-->
+                    <input type="text" id="e-text" disabled="disabled" style="max-width: 20%;">
+                </div>
+                <fieldset id="radio-input" style="display: flex; flex-direction: column; border: none; margin-top: 0; padding: 0;">
+                    <div style="display:flex">
+                        <input type="radio" id="unaltered" name="radio" style="accent-color: #800080;">
+                        <label for="unaltered">Unaltered</label>
+                    </div>
+                    <div style="display:flex">
+                        <input type="radio" id="marriedTaxaI" name="radio" style="accent-color: #800080;">
+                        <label for="married-taxa-i">Married taxa I</label>
+                    </div>
+                    <div style="display:flex">
+                        <input type="radio" id="marriedTaxaII" name="radio" style="accent-color: #800080;">
+                        <label for="married-taxa-ii">Married taxa II</label>
+                    </div>
+                    <div style="display:flex">
+                        <input type="radio" id="allEqual" name="radio" style="accent-color: #800080;" checked>
+                        <label for="all-equal">All equal</label>
+                    </div>
+                </fieldset>
+                <div id="new-data-input" style="display: none">
+                    <input type="checkbox" id="new-data" name="new-data" style="accent-color: #800080;">
+                    <label for="new-data">New Data: Yes or No</label>
+                </div>
+            </fieldset>
+            <fieldset style="padding-bottom: 2vh;">
+                <legend style="color: #800080; font-weight: bold;">DOWNLOAD</legend>
+                <button id="download">Download SVG</button>
+            </fieldset>
+        </div>
+        <main style="height: 100%; width: 100%; margin: 0; padding: 0; box-sizing: border-box; border: none; z-index: 1;">
+            <div id="dpmm" style="height: 1mm; width: 1mm; left: 100%; position: fixed; top: 100%;"></div>
+            <div style="position: fixed; height: 100%; width: 100%; margin: 0; padding: 0; box-sizing: border-box; border: none; " id="plot-container"></div>
+            <div id="labels" style="float: right;"></div>
+        </main>
+        <div id="context-menu" style="width: 15%;">
+            <button id="copy">Copy own seq IDs to clipboard</button>
+            <button id="copy-all">Copy all seq IDs to clipboard</button>
+            <button id="download-seq">Download own sequences</button>
+            <button id="download-all-seq">Download all sequences</button>
+        </div>
+        <script src="{{ url_for('static', filename='bundle.js') }}"></script>
+    </body>
+</html>
